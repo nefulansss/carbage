@@ -1,5 +1,6 @@
 package com.nefu.carbage.mapper;
 
+import com.nefu.carbage.dto.City30DTO;
 import com.nefu.carbage.entity.City;
 
 import javax.xml.crypto.Data;
@@ -49,7 +50,7 @@ public interface CityMapper {
 
     List<City> getCurrentCity7Days(String city);
 
-    List<City> getCurrent30DaysCountry();
+    List<City30DTO> getCurrent30DaysCountry();
 
     List<City> getCityRank(Date start);
 

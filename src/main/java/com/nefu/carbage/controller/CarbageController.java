@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -124,10 +125,19 @@ public class CarbageController {
         List<City> list = carbageService.getCurrentCity7Days(city);
         if (list!=null){
             Map<String, BigDecimal> map = Maps.newHashMap();
+/*
 
             for (int i=0;i<7;i++){
                 map.put(i+"",list.get(i).getGarbageSum());
             }
+*/
+            LOGGER.info("近七天全部数据：：{}",JSON.toJSONString(list));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            for (City cityCageSum : list) {
+                map.put(sdf.format(cityCageSum.getCreateDate()),cityCageSum.getGarbageSum());
+            }
+
+
             return new JsonResult(map,"返回成功",200);
 
         }else {

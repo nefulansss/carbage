@@ -2,6 +2,7 @@ package com.nefu.carbage.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.nefu.carbage.controller.CarbageController;
+import com.nefu.carbage.dto.City30DTO;
 import com.nefu.carbage.dto.RankDTO;
 import com.nefu.carbage.dto.StreetDTO;
 import com.nefu.carbage.entity.City;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,12 +87,21 @@ public class CarbageImpl implements CarbageService {
 
     @Override
     public Map<String, BigDecimal> getCurrent30DaysCountry() {
-        List<City> list = cityMapper.getCurrent30DaysCountry();
+            List<City30DTO> list = cityMapper.getCurrent30DaysCountry();
         LOGGER.info("30：：{}", JSON.toJSONString(list));
         Map<String, BigDecimal> map = new HashMap<>();
-        for (int i=0;i<list.size();i++){
+       /* for (int i=0;i<list.size();i++){
             map.put(i+"",list.get(i).getGarbageSum());
+        }*/
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        for (City30DTO country : list) {
+            map.put(country.getDivideTime(),country.getGarbageSum());
         }
+
+
         return map;
     }
 

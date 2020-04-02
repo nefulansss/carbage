@@ -17,6 +17,17 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
   </resultMap>
+
+  <resultMap id="city30" type="com.nefu.carbage.dto.City30DTO">
+
+    <result column="garbage_sum" jdbcType="DECIMAL" property="garbageSum" />
+    <result column="divide_time" property="divideTime" />
+  </resultMap>
+
+
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -94,8 +105,8 @@
 </select>
 
 <!--  List<City> getCurrent30DaysCountry();-->
-<select id="getCurrent30DaysCountry" resultMap="BaseResultMap">
-select DATE_FORMAT(city.create_date,'%m-%d') as divide_time,create_date,sum(garbage_sum) garbage_sum
+<select id="getCurrent30DaysCountry" resultMap="city30">
+select DATE_FORMAT(city.create_date,'%Y-%m-%d') as divide_time,sum(garbage_sum) garbage_sum
  from city GROUP BY divide_time ORDER BY  divide_time DESC limit 30
 </select>
 
