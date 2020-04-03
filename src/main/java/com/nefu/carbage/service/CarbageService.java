@@ -21,7 +21,7 @@ public interface CarbageService {
 
     Street getStreetToday(String city, String street);
 
-    List<StreetDTO> getStreetToday();
+   Map<String,Object> getStreetToday();
 
     City getPieChartCity(String city);
 

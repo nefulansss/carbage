@@ -60,10 +60,10 @@ public class CarbageController {
     @RequestMapping("index")
     public JsonResult getStreetToday(){
         LOGGER.info("index：");
-        List<StreetDTO> streetToday = carbageService.getStreetToday();
-        LOGGER.info("index数据：{}",JSON.toJSONString(streetToday));
-        if (streetToday!=null){
-            return new JsonResult(streetToday,"返回成功",200);
+        Map<String,Object> mapToday = carbageService.getStreetToday();
+        LOGGER.info("index数据：{}",JSON.toJSONString(mapToday));
+        if (mapToday!=null){
+            return new JsonResult(mapToday,"返回成功",200);
         }else {
             return new JsonResult(null,"返回失败",200);
         }

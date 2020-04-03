@@ -49,12 +49,13 @@ public interface StreetMapper {
      */
     int updateByPrimaryKey(Street record);
 
-    Street getStreetByCityIdAndName(@Param("cityId") int cityId,@Param("street") String street);
+    Street getStreetByCityIdAndName(@Param("cityId") int cityId, @Param("street") String street);
 
     City getPieChartCity(String city);
 
 
-    List<Street> getStreetRank(Date start);
+    //    List<Street> getStreetRank(Date start);
+    List<Street> getStreetRank();
 
     List<StreetDTO> getIndexData();
 }

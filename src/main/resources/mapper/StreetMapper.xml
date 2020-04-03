@@ -33,6 +33,7 @@
     <result column="street_name" jdbcType="VARCHAR" property="streetName" />
     <result column="lng" property="lng"/>
     <result column="lat" property="lat"/>
+    <result column="city_name" property="cityName"/>
   </resultMap>
 
 
@@ -108,8 +109,10 @@
 </select>
 
 <!--  List<Street> getStreetRank(Date start);-->
-<select id="getStreetRank" parameterType="java.util.Date" resultMap="BaseResultMap">
-    select * from street where street.create_date>#{create} ORDER BY  garbage_sum DESC limit 3
+<!--  &#45;&#45;  parameterType="java.util.Date"      select * from street where street.create_date>#{create} ORDER BY  garbage_sum DESC limit 3-->
+
+  <select id="getStreetRank"  resultMap="BaseResultMap">
+    select * from street where street.create_date>'2020-04-02 0:00:56' ORDER BY  garbage_sum DESC limit 3
 
 </select>
 
@@ -117,8 +120,11 @@
 
 <!--  List<StreetDTO> getIndexData();-->
 <select id="getIndexData"  resultMap="streetdto">
-select a.*, b.lng,b.lat from street a JOIN areas b on a.street_name_id = b.street_name_id
-where a.create_date> '2020-03-26 17:00:56'
+
+select a.*, b.lng,b.lat,city.city_name from street a LEFT JOIN areas b on a.street_name_id = b.name_id
+LEFT join  city  on a.city_id = city.city_name_id
+where b.areas_status =2 and  a.create_date> '2020-04-01 17:00:56' and city.create_date>'2020-04-01 17:00:56'
+
 </select>
 
 

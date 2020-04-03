@@ -31,7 +31,7 @@ public class MyScheduled {
     StreetMapper streetMapper;
 
 
-    @Scheduled(cron = "0/10 * * * * ?")
+   // @Scheduled(cron = "0/10 * * * * ?")
     @Transactional
     public void insertSql() {
         for (int i = 0; i < 3; i++) {

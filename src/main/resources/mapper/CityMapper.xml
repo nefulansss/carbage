@@ -25,6 +25,21 @@
   </resultMap>
 
 
+  <resultMap id="bmp" type="com.nefu.carbage.dto.CityIndexDTO">
+    <id column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="garbage_sum" jdbcType="DECIMAL" property="garbageSum" />
+    <result column="recyclable" jdbcType="DECIMAL" property="recyclable" />
+    <result column="other_waster" jdbcType="DECIMAL" property="otherWaster" />
+    <result column="kitchen_waster" jdbcType="DECIMAL" property="kitchenWaster" />
+    <result column=" harmful_waster" jdbcType="DECIMAL" property="harmfulWaster" />
+    <result column="recycle_sum" jdbcType="DECIMAL" property="recycleSum" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="lng" property="lng"/>
+    <result column="lat" property="lat"/>
+  </resultMap>
+
+
 
 
 
@@ -111,11 +126,25 @@ select DATE_FORMAT(city.create_date,'%Y-%m-%d') as divide_time,sum(garbage_sum) 
 </select>
 
 <!--  List<City> getCityRank(Date start);-->
+<!--  select * from city where city.create_date>#{start} ORDER BY  garbage_sum DESC limit 3-->
 <select id="getCityRank" resultMap="BaseResultMap">
-    select * from city where city.create_date>#{start} ORDER BY  garbage_sum DESC limit 3
+select * from city where city.create_date>'2020-04-02 0:29:20' ORDER BY  garbage_sum DESC limit 3
 </select>
 
 
-<!--  City getPieChartCity(String city);-->
+
+
+<!--  List getIndexData();-->
+  <select id="getIndexData" resultMap="bmp">
+    select city.*,lng,lat from city join areas on areas.name_id = city.city_name_id
+where areas.areas_status = 1 and city.create_date>'2020-04-02 0:29:20'
+  </select>
+
+
+
+
+
+
+
 
 </mapper>

@@ -14,16 +14,16 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author: nefulan
  * @create: 2020-03-26 15:59
  **/
-@SpringBootTest(classes = CarbageApplication.class)
-@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = CarbageApplication.class)
+//@RunWith(SpringRunner.class)
 public class ScheduledTest {
 
     @Autowired
     MyScheduled myScheduled;
 
-    @Test
+    /*@Test
     public void testInsertSQL(){
         myScheduled.insertSql();
     }
-
+*/
 }

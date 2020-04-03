@@ -3,6 +3,7 @@ package com.nefu.carbage.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.nefu.carbage.controller.CarbageController;
 import com.nefu.carbage.dto.City30DTO;
+import com.nefu.carbage.dto.CityIndexDTO;
 import com.nefu.carbage.dto.RankDTO;
 import com.nefu.carbage.dto.StreetDTO;
 import com.nefu.carbage.entity.City;
@@ -65,11 +66,19 @@ public class CarbageImpl implements CarbageService {
      * @return
      */
     @Override
-    public List<StreetDTO> getStreetToday() {
+    public Map<String,Object> getStreetToday() {
 
-        List<StreetDTO> list = streetMapper.getIndexData();
-        LOGGER.info("index-list: {}",JSON.toJSONString(list));
-        return list;
+        List<StreetDTO> streetlist = streetMapper.getIndexData();
+        List<CityIndexDTO> cityList = cityMapper.getIndexData();
+        Map<String,Object> map = new HashMap<>();
+
+        LOGGER.info("index-list1: {}",JSON.toJSONString(streetlist));
+        LOGGER.info("index-list2: {}",JSON.toJSONString(cityList));
+        map.put("streetlist",streetlist);
+        map.put("cityList",cityList);
+        LOGGER.info("index-map: {}",JSON.toJSONString(map));
+
+        return map;
     }
 
     @Override
@@ -90,9 +99,13 @@ public class CarbageImpl implements CarbageService {
             List<City30DTO> list = cityMapper.getCurrent30DaysCountry();
         LOGGER.info("30：：{}", JSON.toJSONString(list));
         Map<String, BigDecimal> map = new HashMap<>();
-       /* for (int i=0;i<list.size();i++){
+       /*
+
+        for (int i=0;i<list.size();i++){
             map.put(i+"",list.get(i).getGarbageSum());
-        }*/
+        }
+
+        */
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -101,13 +114,13 @@ public class CarbageImpl implements CarbageService {
             map.put(country.getDivideTime(),country.getGarbageSum());
         }
 
-
         return map;
     }
 
     @Override
     public List<RankDTO> getCityRank() {
-        List<City> list = cityMapper.getCityRank(TimeUtil.getTodayZeroDate());
+//        List<City> list = cityMapper.getCityRank(TimeUtil.getTodayZeroDate());
+        List<City> list = cityMapper.getCityRank();
         List<RankDTO> listRankDTO = new ArrayList<>();
         for (int i=0;i<list.size();i++) {
             RankDTO rankDTO = new RankDTO();
@@ -122,7 +135,7 @@ public class CarbageImpl implements CarbageService {
 
     @Override
     public List<RankDTO> getStreetRank() {
-        List<Street> list = streetMapper.getStreetRank(TimeUtil.getTodayZeroDate());
+        List<Street> list = streetMapper.getStreetRank();
         List<RankDTO> listRankDTO = new ArrayList<>();
         for (int i=0;i<list.size();i++) {
             RankDTO rankDTO = new RankDTO();
