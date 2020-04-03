@@ -91,7 +91,7 @@ public class CarbageControllerTest {
      */
     @Test
     public void getStreetRankTest(){
-        JsonResult streetToday = carbageController.getStreetRank();
+        JsonResult streetToday = carbageController.getStreetRank("哈尔滨市");
         LOGGER.info("街道垃圾排名  top3： {}",JSON.toJSONString(streetToday));
         Assert.assertNotNull(streetToday);
     }

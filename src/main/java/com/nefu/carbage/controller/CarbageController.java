@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -70,7 +71,7 @@ public class CarbageController {
     }
 
     /**
-     * 街道饼状图
+     * 街道饼状图     F
      * @param city
      * @param street
      * @return
@@ -93,7 +94,7 @@ public class CarbageController {
     }
 
     /**
-     * 城区饼状图
+     * 城区饼状图   F
      * @param city
      * @return
      */
@@ -124,7 +125,7 @@ public class CarbageController {
     public JsonResult getCurrentCity7Days(String city){
         List<City> list = carbageService.getCurrentCity7Days(city);
         if (list!=null){
-            Map<String, BigDecimal> map = Maps.newHashMap();
+            Map<String, BigDecimal> map = Maps.newLinkedHashMap();
 /*
 
             for (int i=0;i<7;i++){
@@ -133,9 +134,27 @@ public class CarbageController {
 */
             LOGGER.info("近七天全部数据：：{}",JSON.toJSONString(list));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+           /* ListIterator<City> iterator = list.listIterator();
+            while (iterator.hasNext()){
+                iterator.next();
+            }
+            while (iterator.hasPrevious()){
+                City cityCurrent =iterator.previous();
+                map.put(sdf.format(cityCurrent.getCreateDate()),cityCurrent.getGarbageSum());
+
+            }*/
+
+           for (int i=list.size()-1;i>=0;i--){
+               map.put(sdf.format(list.get(i).getCreateDate()),list.get(i).getGarbageSum());
+
+           }
+
+/*
+
             for (City cityCageSum : list) {
                 map.put(sdf.format(cityCageSum.getCreateDate()),cityCageSum.getGarbageSum());
             }
+*/
 
 
             return new JsonResult(map,"返回成功",200);
@@ -174,6 +193,7 @@ public class CarbageController {
     /**
      * 街道垃圾排名  top3
      */
+/*
     @RequestMapping("getStreetRank")
     public JsonResult getStreetRank(){
         List<RankDTO> list = carbageService.getStreetRank();
@@ -183,6 +203,25 @@ public class CarbageController {
             return new JsonResult(null,"返回失败",200);
         }
     }
+
+*/
+
+    /**
+     * 街道垃圾排名  top3   //根据城市取街道
+     */
+    @RequestMapping("getStreetRank")
+    public JsonResult getStreetRank(String city){
+        List<RankDTO> list = carbageService.getStreetRank(city);
+        if (list!=null){
+            return new JsonResult(list,"返回成功",200);
+        }else {
+            return new JsonResult(null,"返回失败",200);
+        }
+    }
+
+
+
+
 
 
 

@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
@@ -25,9 +26,9 @@ public class MyScheduled {
     private static final String[] cities = {"哈尔滨市", "上海市", "北京市"};
     private static final String[] streets = {"和兴路", "中央大街", "和平路"};
 
-    @Autowired
+    @Resource
     CityMapper cityMapper;
-    @Autowired
+    @Resource
     StreetMapper streetMapper;
 
 

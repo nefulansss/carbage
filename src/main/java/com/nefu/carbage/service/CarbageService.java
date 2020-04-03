@@ -33,5 +33,8 @@ public interface CarbageService {
 
     List<RankDTO> getStreetRank();
 
+    List<RankDTO> getStreetRank(String city);
+
     Street getPieChartStreet(String city, String street);
+    //Street getPieChartStreet( int street);
 }

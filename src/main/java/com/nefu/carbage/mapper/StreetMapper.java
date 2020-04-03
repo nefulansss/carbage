@@ -1,5 +1,6 @@
 package com.nefu.carbage.mapper;
 
+import com.nefu.carbage.dto.RankDTO;
 import com.nefu.carbage.dto.StreetDTO;
 import com.nefu.carbage.entity.City;
 import com.nefu.carbage.entity.Street;
@@ -58,4 +59,8 @@ public interface StreetMapper {
     List<Street> getStreetRank();
 
     List<StreetDTO> getIndexData();
+
+    List<Street> getStreetByCity(int cityId);
+
+    Street getStreetByStreetNameId(int street);
 }

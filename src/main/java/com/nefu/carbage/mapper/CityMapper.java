@@ -59,4 +59,6 @@ public interface CityMapper {
     City getPieChartCity(String city);
 
     List<CityIndexDTO> getIndexData();
+
+    City getPieChartCityByCityNameId(int city);
 }

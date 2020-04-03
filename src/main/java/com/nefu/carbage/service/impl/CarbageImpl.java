@@ -23,10 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -86,6 +83,12 @@ public class CarbageImpl implements CarbageService {
         City cityToday = cityMapper.getPieChartCity(city);
         return cityToday;
     }
+/*
+    @Override
+    public City getPieChartCity(int city) {
+        City cityToday = cityMapper.getPieChartCityByCityNameId(city);
+        return cityToday;
+    }*/
 
     @Override
     public List<City> getCurrentCity7Days(String city) {
@@ -98,7 +101,7 @@ public class CarbageImpl implements CarbageService {
     public Map<String, BigDecimal> getCurrent30DaysCountry() {
             List<City30DTO> list = cityMapper.getCurrent30DaysCountry();
         LOGGER.info("30：：{}", JSON.toJSONString(list));
-        Map<String, BigDecimal> map = new HashMap<>();
+        Map<String, BigDecimal> map = new LinkedHashMap<>();
        /*
 
         for (int i=0;i<list.size();i++){
@@ -109,9 +112,22 @@ public class CarbageImpl implements CarbageService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+/*
 
         for (City30DTO country : list) {
             map.put(country.getDivideTime(),country.getGarbageSum());
+        }
+*/
+        ListIterator<City30DTO> iterator =list.listIterator();
+
+        while (iterator.hasNext()){
+            iterator.next();
+        }
+        //map.put(iterator.getDivideTime())
+
+        while (iterator.hasPrevious()){
+            City30DTO city30DTO = iterator.previous();
+            map.put(city30DTO.getDivideTime(),city30DTO.getGarbageSum());
         }
 
         return map;
@@ -147,6 +163,39 @@ public class CarbageImpl implements CarbageService {
         }
         return listRankDTO;
     }
+
+    /**
+     * 根据城市查询街道排名
+     * @param city
+     * @return
+     */
+    @Override
+    public List<RankDTO> getStreetRank(String city) {
+        int cityId = dictiMapper.getCityIdByName(city);
+        //List<RankDTO> rankStreetDTOList= streetMapper.getStreetByCity(cityId);
+
+        List<Street> list = streetMapper.getStreetByCity(cityId);
+        List<RankDTO> listRankDTO = new ArrayList<>();
+        for (int i=0;i<list.size();i++) {
+            RankDTO rankDTO = new RankDTO();
+            rankDTO.setNum(i+1);
+            rankDTO.setName(list.get(i).getStreetName());
+            rankDTO.setCarbageSum(list.get(i).getGarbageSum());
+            rankDTO.setCompletionRate(list.get(i).getRecycleSum().divide(list.get(i).getGarbageSum(),4, BigDecimal.ROUND_HALF_UP));
+            listRankDTO.add(rankDTO);
+        }
+        return listRankDTO;
+
+    }
+/*
+    @Override
+    public Street getPieChartStreet( int street) {
+        Street streetRes = streetMapper.getStreetByStreetNameId(street);
+            return streetRes;
+        }*/
+
+
+
 
     @Override
     public Street getPieChartStreet(String city, String street) {
